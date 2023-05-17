@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+<body>
+    <div class="image">
+        <img src="{{ url_for('static', filename='images/brainn.png') }}" alt="Brain">
+
+    </div>
+    <div class="red-box">
+        <h1>Alzheimer Detection</h1>
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*">
+            <button class="button" type="submit">Tanı Yap</button>
+        </form>
+        <div id="result"></div>
+    </div>
+    <script>
+        const form = document.querySelector("form");
+        const resultDiv = document.getElementById("result");
+    
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.json();
+            displayResult(result);
+        });
+    
+        function displayResult(result) {
+            const probabilities = result.class_probabilities;
+            let output = "<ul>";
+            for (const [className, probability] of Object.entries(probabilities)) {
+                output += `<li>${className}: %${probability.toFixed(2)}</li>`;
+            }
+            output += "</ul>";
+            resultDiv.innerHTML = output;
+        }
+    </script>
+</body>
+</html>
