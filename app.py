@@ -19,6 +19,21 @@ def f1_score(y_true, y_pred):
 
 # Load your model and weights
 model = tf.keras.models.load_model("./models/best_weights.hdf5", custom_objects={'f1_score': f1_score})
+@app.route("/very_mild_demented")
+def very_mild_demented():
+    return render_template("very_mild_demented.html")
+
+@app.route("/mild_demented")
+def mild_demented():
+    return render_template("mild_demented.html")
+
+@app.route("/moderate_demented")
+def moderate_demented():
+    return render_template("moderate_demented.html")
+
+@app.route("/non_demented")
+def non_demented():
+    return render_template("non_demented.html")
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -36,10 +51,10 @@ def predict():
         class_probs = predictions[0] * 100
         result = {
             "class_probabilities": {
-                "Mild Demented": float(class_probs[0]),
-                "Moderate Demented": float(class_probs[1]),
-                "Non Demented":float(class_probs[2]),
-                "Very Mild Demented": float(class_probs[3]),
+                "mild_demented": float(class_probs[0]),
+                "moderate_demented": float(class_probs[1]),
+                "non_demented":float(class_probs[2]),
+                "very_mild_demented": float(class_probs[3]),
             }
         }
 

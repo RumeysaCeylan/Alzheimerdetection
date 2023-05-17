@@ -34,7 +34,27 @@
             const result = await response.json();
             displayResult(result);
         });
-    
+        function createButton(highestClass) {
+            const button = document.createElement("button");
+            button.textContent = "Learn more";
+        
+            button.onclick = function() {
+            window.location.href = "/" + highestClass;
+        };
+        button.style.backgroundColor = "#336600";
+    button.style.color = "white";
+    button.style.border = "none";
+    button.style.padding = "15px 32px";
+    button.style.textAlign = "center";
+    button.style.textDecoration = "none";
+    button.style.display = "inline-block";
+    button.style.fontSize = "16px";
+    button.style.margin = "4px 2px";
+    button.style.cursor = "pointer";
+    //button.className="myButton" //css içinde değiştirmek için
+        return button;
+    }
+
         function displayResult(result) {
             const probabilities = result.class_probabilities;
             let output = "<ul>";
@@ -43,6 +63,10 @@
             }
             output += "</ul>";
             resultDiv.innerHTML = output;
+
+            const highestClass = Object.entries(probabilities).reduce((a, b) => b[1] > a[1] ? b : a)[0];
+            const button = createButton(highestClass);
+            resultDiv.appendChild(button);
         }
     </script>
 </body>
