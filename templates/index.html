@@ -15,8 +15,14 @@
     <div class="red-box">
         <h1>Alzheimer Detection</h1>
         <form action="/predict" method="post" enctype="multipart/form-data">
-            <input type="file" name="image" accept="image/*">
+            <input type="file" name="image" accept="image/*" onchange="previewImage(event)">
+
             <button class="button" type="submit">Tanı Yap</button>
+            <br><br>
+            <div style="display: flex; justify-content: center; align-items: center; height: 50px;">
+                <img id="preview" style="max-width: 100px; max-height: 500px;"/>
+            </div>
+            
         </form>
         <div id="result"></div>
     </div>
@@ -68,6 +74,17 @@
             const button = createButton(highestClass);
             resultDiv.appendChild(button);
         }
+
+
+        function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
     </script>
 </body>
 </html>

@@ -5,8 +5,8 @@ import tensorflow as tf
 from PIL import Image
 from keras import backend as K
 
-app = Flask(__name__)
 
+app = Flask(__name__)
 
 def f1_score(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
